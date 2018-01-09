@@ -97,7 +97,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/graphql-api/dev/1515501462219-2018-01-09T12:37:42.219Z/graphql-api.zip"
+          "S3Key": "serverless/graphql-api/dev/1515508225657-2018-01-09T14:30:25.657Z/graphql-api.zip"
         },
         "FunctionName": "graphql-api-dev-query",
         "Handler": "handler.query",
@@ -191,7 +191,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1515501462232": {
+    "ApiGatewayDeployment1515508225676": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
