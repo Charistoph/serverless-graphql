@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.178.0",
     "graphql": "^0.12.3"
   }
 }

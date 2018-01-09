@@ -1,4 +1,3 @@
-/* handler.js */
 const {
   graphql,
   GraphQLSchema,
@@ -7,10 +6,54 @@ const {
   GraphQLNonNull
 } = require("graphql");
 
-// This method just inserts the user's first name into the greeting message.
-const getGreeting = firstName => `Hello, ${firstName}.`;
+const AWS = require("aws-sdk");
 
-// Here we declare the schema and resolvers for the query
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
+
+const promisify = foo =>
+  new Promise((resolve, reject) => {
+    foo((error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+
+const getGreeting = firstName =>
+  promisify(callback =>
+    dynamoDb.get(
+      {
+        TableName: process.env.DYNAMODB_TABLE,
+        Key: { firstName }
+      },
+      callback
+    )
+  )
+    .then(result => {
+      if (!result.Item) {
+        return firstName;
+      }
+      return result.Item.nickname;
+    })
+    .then(name => `Hello, ${name}.`);
+
+const changeNickname = (firstName, nickname) =>
+  promisify(callback =>
+    dynamoDb.update(
+      {
+        TableName: process.env.DYNAMODB_TABLE,
+        Key: { firstName },
+        UpdateExpression: "SET nickname = :nickname",
+        ExpressionAttributeValues: {
+          ":nickname": nickname
+        }
+      },
+      callback
+    )
+  ).then(() => nickname);
+
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: "RootQueryType", // an arbitrary name
@@ -28,6 +71,25 @@ const schema = new GraphQLSchema({
         type: GraphQLString,
         // resolve to a greeting message
         resolve: (parent, args) => getGreeting(args.firstName)
+      }
+    }
+  }),
+  mutation: new GraphQLObjectType({
+    name: "RootMutationType", // an arbitrary name
+    fields: {
+      changeNickname: {
+        args: {
+          firstName: {
+            name: "firstName",
+            type: new GraphQLNonNull(GraphQLString)
+          },
+          nickname: {
+            name: "nickname",
+            type: new GraphQLNonNull(GraphQLString)
+          }
+        },
+        type: GraphQLString,
+        resolve: (parent, args) => changeNickname(args.firstName, args.nickname)
       }
     }
   })

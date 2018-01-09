@@ -71,6 +71,14 @@
                       "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/graphql-api-dev-query:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:UpdateItem"
+                  ],
+                  "Resource": "arn:aws:dynamodb:us-east-1:*:table/graphql-api-dev"
                 }
               ]
             }
@@ -97,7 +105,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/graphql-api/dev/1515501462219-2018-01-09T12:37:42.219Z/graphql-api.zip"
+          "S3Key": "serverless/graphql-api/dev/1515507316641-2018-01-09T14:15:16.641Z/graphql-api.zip"
         },
         "FunctionName": "graphql-api-dev-query",
         "Handler": "handler.query",
@@ -109,21 +117,26 @@
           ]
         },
         "Runtime": "nodejs6.10",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "DYNAMODB_TABLE": "graphql-api-dev"
+          }
+        }
       },
       "DependsOn": [
         "QueryLogGroup",
         "IamRoleLambdaExecution"
       ]
     },
-    "QueryLambdaVersionVtAisDeMSc2raUZufNIpb6X9g9z7krO0JE3lVkizho": {
+    "QueryLambdaVersionS4moGHa86INlMYP6MTv26gwBiGNE8iM2OYJr6wcNE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "QueryLambdaFunction"
         },
-        "CodeSha256": "KoLXNLSdDAkS952mRNZVzs0H/f6GXiC4SOQyt0hHnM0="
+        "CodeSha256": "rmMH/0EUaPSDbDEBJ5iixHGTZnKiIVE7/SVsLFntIs8="
       }
     },
     "ApiGatewayRestApi": {
@@ -191,7 +204,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1515501462232": {
+    "ApiGatewayDeployment1515507316688": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -235,6 +248,27 @@
           ]
         }
       }
+    },
+    "NicknamesTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "firstName",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "firstName",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 1,
+          "WriteCapacityUnits": 1
+        }
+      }
     }
   },
   "Outputs": {
@@ -246,7 +280,7 @@
     "QueryLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "QueryLambdaVersionVtAisDeMSc2raUZufNIpb6X9g9z7krO0JE3lVkizho"
+        "Ref": "QueryLambdaVersionS4moGHa86INlMYP6MTv26gwBiGNE8iM2OYJr6wcNE"
       }
     },
     "ServiceEndpoint": {
