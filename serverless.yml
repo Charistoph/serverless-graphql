@@ -3,14 +3,16 @@ service: graphql-api
 provider:
   name: aws
   runtime: nodejs6.10
-  environment:
-    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:GetItem
+        - dynamodb:PutItem
         - dynamodb:UpdateItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource:
+        - { "Fn::GetAtt": ["NamesDynamoDBTable", "Arn" ] }
+  environment:
+    NAMES_TABLE: { "Ref": "NamesDynamoDBTable" }
 
 functions:
   query:
@@ -22,16 +24,17 @@ functions:
 
 resources:
   Resources:
-    NicknamesTable:
+    NamesDynamoDBTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
-          - AttributeName: firstName
+          -
+            AttributeName: firstName
             AttributeType: S
         KeySchema:
-          - AttributeName: firstName
+          -
+            AttributeName: firstName
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-TableName: ${self:provider.environment.DYNAMODB_TABLE}
