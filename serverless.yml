@@ -38,7 +38,3 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE}
-
-
-curl -G 'https://5zy1dahvra.execute-api.us-east-1.amazonaws.com/dev/query' --data-urlencode 'query=mutation {changeNickname(firstName:
- "Jeremy", nickname: "Jer")}'
