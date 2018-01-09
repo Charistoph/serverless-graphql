@@ -18,20 +18,11 @@
             "dynamodb:PutItem",
             "dynamodb:UpdateItem"
           ],
-          "Resource": [
-            {
-              "Fn::GetAtt": [
-                "NamesDynamoDBTable",
-                "Arn"
-              ]
-            }
-          ]
+          "Resource": "arn:aws:dynamodb:us-east-1:*:table/graphql-api-dev"
         }
       ],
       "environment": {
-        "NAMES_TABLE": {
-          "Ref": "NamesDynamoDBTable"
-        }
+        "DYNAMODB_TABLE": "graphql-api-dev"
       },
       "versionFunctions": true,
       "remoteFunctionData": null,
@@ -137,7 +128,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/graphql-api/dev/1515519646557-2018-01-09T17:40:46.557Z/graphql-api.zip"
+                "S3Key": "serverless/graphql-api/dev/1515535553661-2018-01-09T22:05:53.661Z/graphql-api.zip"
               },
               "FunctionName": "graphql-api-dev-query",
               "Handler": "handler.query",
@@ -152,9 +143,7 @@
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "NAMES_TABLE": {
-                    "Ref": "NamesDynamoDBTable"
-                  }
+                  "DYNAMODB_TABLE": "graphql-api-dev"
                 }
               }
             },
@@ -163,7 +152,7 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "QueryLambdaVersionFaPlkLfXlXHcqzCuk6A2WV8m9kYJHrdcrWxTg6t6bw": {
+          "QueryLambdaVersionS4moGHa86INlMYP6MTv26gwBiGNE8iM2OYJr6wcNE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
@@ -238,7 +227,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1515519646605": {
+          "ApiGatewayDeployment1515535553771": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -301,7 +290,8 @@
               "ProvisionedThroughput": {
                 "ReadCapacityUnits": 1,
                 "WriteCapacityUnits": 1
-              }
+              },
+              "TableName": "graphql-api-dev"
             }
           }
         },
@@ -314,7 +304,7 @@
           "QueryLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "QueryLambdaVersionFaPlkLfXlXHcqzCuk6A2WV8m9kYJHrdcrWxTg6t6bw"
+              "Ref": "QueryLambdaVersionS4moGHa86INlMYP6MTv26gwBiGNE8iM2OYJr6wcNE"
             }
           },
           "ServiceEndpoint": {
@@ -394,7 +384,8 @@
             "ProvisionedThroughput": {
               "ReadCapacityUnits": 1,
               "WriteCapacityUnits": 1
-            }
+            },
+            "TableName": "graphql-api-dev"
           }
         }
       },
@@ -403,7 +394,7 @@
     "artifact": "/Users/christoph/Documents/coding/backend/serverless-graphql/.serverless/graphql-api.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/graphql-api/dev/1515519646557-2018-01-09T17:40:46.557Z",
+    "artifactDirectoryName": "serverless/graphql-api/dev/1515535553661-2018-01-09T22:05:53.661Z",
     "artifact": "graphql-api.zip"
   }
 }

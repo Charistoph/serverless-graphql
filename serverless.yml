@@ -9,10 +9,9 @@ provider:
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:UpdateItem
-      Resource:
-        - { "Fn::GetAtt": ["NamesDynamoDBTable", "Arn" ] }
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
   environment:
-    NAMES_TABLE: { "Ref": "NamesDynamoDBTable" }
+    DYNAMODB_TABLE: ${self:service}-${self:provider.stage}
 
 functions:
   query:
@@ -38,3 +37,8 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+
+
+curl -G 'https://5zy1dahvra.execute-api.us-east-1.amazonaws.com/dev/query' --data-urlencode 'query=mutation {changeNickname(firstName:
+ "Jeremy", nickname: "Jer")}'
