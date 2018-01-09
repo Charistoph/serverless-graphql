@@ -1,0 +1,19 @@
+# serverless.yml
+service: graphql-api
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+# test get request:
+# curl -G 'https://5zy1dahvra.execute-api.us-east-1.amazonaws.com/dev/query' --data-urlencode 'query={greeting(firstName: "Felix")}'
+
+# The `functions` block defines what code to deploy
+functions:
+  query:
+    handler: handler.query
+    events:
+      - http:
+          path: query
+          method: get
