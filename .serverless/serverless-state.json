@@ -123,7 +123,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/graphql-api-old/dev/1518889919278-2018-02-17T17:51:59.278Z/graphql-api-old.zip"
+                "S3Key": "serverless/graphql-api-old/dev/1518891459807-2018-02-17T18:17:39.807Z/graphql-api-old.zip"
               },
               "FunctionName": "graphql-api-old-dev-query",
               "Handler": "handler.query",
@@ -222,7 +222,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1518889919325": {
+          "ApiGatewayDeployment1518891459854": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -381,10 +381,10 @@
       },
       "Outputs": {}
     },
-    "artifact": "/Users/christoph/Documents/coding/test_repos/serverless-graphql/.serverless/graphql-api-old.zip"
+    "artifact": "/Users/christoph/Documents/coding/serverless/serverless-graphql/.serverless/graphql-api-old.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/graphql-api-old/dev/1518889919278-2018-02-17T17:51:59.278Z",
+    "artifactDirectoryName": "serverless/graphql-api-old/dev/1518891459807-2018-02-17T18:17:39.807Z",
     "artifact": "graphql-api-old.zip"
   }
 }
