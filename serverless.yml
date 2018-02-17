@@ -1,4 +1,4 @@
-service: graphql-api
+service: graphql-api-old
 
 provider:
   name: aws
